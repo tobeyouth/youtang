@@ -1,0 +1,34 @@
+support-for-ie ?= true
+
+vendor(prop,args)
+	-webkit-{prop} args
+	-o-{prop} args
+	-moz-{prop} args
+	{prop} args
+
+
+border-radius()
+	vendor('border-radius',aguments)
+
+box-shadow()
+	vendor('box-shadow',aguments)
+
+opacity(n)
+	opacity : n
+	if suppor-for-ie
+		filter : alpha(opacity=n*100)
+
+absolute-enter()
+	top : auto
+	bottom : auto
+	left : 0
+	right : 0
+	margin : auto
+
+linear-gradient(start,end)
+	background-image:-webkit-linear-gradient\(start,end\)
+	background-image:-moz-linear-gradient\(start,end\)
+	background-image:-o-linear-gradient\(start,end\)
+	background-image:linear-gradient\(start,end\)
+
+

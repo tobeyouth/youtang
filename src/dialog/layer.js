@@ -203,7 +203,7 @@
 			};
 
 			if (closeMask && mask) {
-				mask.close(false);
+				mask.close(true);
 			};
 			
 			return layer;

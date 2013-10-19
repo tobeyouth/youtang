@@ -55,9 +55,14 @@
 		},
 		'close' : function (destroy) {
 			var mask = this;
-			mask.dom.remove();
-			mask.opening = false;
-			mask = null;
+			if (destroy) {
+				mask.dom.remove();
+				mask.opening = false;
+				mask.rendered = false;
+				mask = null;
+			} else {
+				mask.dom.fadeOut();
+			}
 		}
 	};
 

@@ -1,1 +1,36 @@
-undefined
+.main-btn {
+  border: 1px solid #196cc8;
+  color: #fff;
+  background: #2177de;
+  background-image: -webkit-linear-gradient ( #398be7, #376cbb );
+  background-image: -moz-linear-gradient ( #398be7, #376cbb );
+  background-image: -o-linear-gradient ( #398be7, #376cbb );
+  background-image: linear-gradient ( #398be7, #376cbb );
+}
+.save-btn {
+  border: 1px solid #598527;
+  color: #fff;
+  background: #9ec666;
+  background-image: -webkit-linear-gradient ( #b8d987, #6a923c );
+  background-image: -moz-linear-gradient ( #b8d987, #6a923c );
+  background-image: -o-linear-gradient ( #b8d987, #6a923c );
+  background-image: linear-gradient ( #b8d987, #6a923c );
+}
+.cancel-btn {
+  border: 1px solid #bfbfbf;
+  color: #333;
+  background: #bfbfbf;
+  background-image: -webkit-linear-gradient ( #fff, #d5d5d5 );
+  background-image: -moz-linear-gradient ( #fff, #d5d5d5 );
+  background-image: -o-linear-gradient ( #fff, #d5d5d5 );
+  background-image: linear-gradient ( #fff, #d5d5d5 );
+}
+.disable-btn {
+  border: 1px solid #bfbfbf;
+  color: #333;
+  background: #bfbfbf;
+  background-image: -webkit-linear-gradient ( #d5d5d5, #fff );
+  background-image: -moz-linear-gradient ( #d5d5d5, #fff );
+  background-image: -o-linear-gradient ( #d5d5d5, #fff );
+  background-image: linear-gradient ( #d5d5d5, #fff );
+}

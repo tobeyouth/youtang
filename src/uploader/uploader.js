@@ -14,7 +14,7 @@
 		// 基本功能
 		'trigger' : null, // jquery selector,触发元素
 		'action' : null, //string ,提交地址
-		'name' : null, // string,上传文件的名字
+		'name' : 'file', // string,上传文件的名字
 		'data' : {}, // obj,要随文件发送的其他数据
 		'limit' : 1, // num,可以上传几个文件
 		'multiple' : false, // boolean,是否多文件上传
@@ -40,20 +40,20 @@
 	var defaultAccept = {
 		// 大纲
 		'outline' : {
-			'type' : '/application\/pdf/gi',
-			'filetype' : '/*\.pdf/gi', 
+			'type' : /application\/pdf/gi,
+			'filetype' : /^.*pdf$/gi, 
 			'size' : 1024 * 1024 * 20
 		},
 		// 头像
 		'avator' : {
 			'type' : /image\/*/gi,
-			'filetype' : /[*\.jpg]|[*\.jpeg]|[*\.png]/gi,
+			'filetype' : /[.*\.jpg]|[.*\.jpeg]|[.*\.png]/gi,
 			'size' : 1024 * 1024 * 5
 		},
 		// 图片
 		'photo' : {
 			'type' : /image\/*/gi,
-			'filetype' : /[*\.jpg]|[*\.jpeg]|[*\.png]/gi,
+			'filetype' : /[.*\.jpg]|[.*\.jpeg]|[.*\.png]/gi,
 			'size' : 1024 * 1024 * 5
 		}
 	}
@@ -84,12 +84,19 @@
 				iframe = '<iframe name='+iframeName+'></iframe>',
 				form = '<form method="post" enctype="multipart/form-data" target="'+iframeName+'" action='+uploader.setting.action+' name=uploader-form-'+uploaderCount+'></form>',
 				input = document.createElement('input');
+				// callInput = document.createElement('input');
 
+			// 文件上传的input
 			input.type = 'file';
 			input.name = uploader.setting.name;
 			if (uploader.setting.multiple) {
 		      input.multiple = true;
 		    };
+
+		    // 传送回调函数名的input
+		    // callInput.type = 'hidden';
+		    // callInput.name = 'callback';
+		    // callInput.value = uploader.id;
 
 			uploader.iframe = $(iframe).hide();
 			uploader.form = $(form);
@@ -118,7 +125,11 @@
 		      height: this.trigger.outerHeight(),
 		      fontSize: Math.max(64, uploader.trigger.outerHeight() * 5)
 		    });
+
+		    // 塞入需要的input
 		    uploader.form.append(uploader.input);
+			// uploader.form.append(callInput);
+
 		    uploader.form.css({
 		      position: 'absolute',
 		      top: uploader.trigger.offset().top,
@@ -128,6 +139,7 @@
 		      height: uploader.trigger.outerHeight(),
 		      zIndex: findzIndex(uploader.trigger) + 10
 		    }).appendTo('body');
+
 
 		    // 绑定交互
 		    uploader.input.on('change',function (e) {
@@ -149,46 +161,6 @@
 		    		uploader.submit();
 		    	};
 		    });
-		    // uploader.iframe.on('load',function (e) {
-		    // 	// 加了个iframeLoader变量
-		    // 	// 因为append的时候就会触发一次load事件
-		    // 	// 要将这次事件过滤掉
-		    // 	if (!uploader.iframeLoaded) {
-		    // 		uploader.iframeLoaded = true;
-		    // 		return;
-		    // 	};
-		    // 	var response = uploader.iframe.contents().find('body').html();
-		        
-		    //     uploader.loaded += 1;
-
-		    //     uploader.iframe.off('load').remove();
-
-		    // 	// if (uploader.loaded >= uploader.setting.limit) {
-		    //  //    	uploader.iframe.off('load').remove(); // 防止调用两次
-		    // 	// } else {
-		    // 	// 	uploader.refreshFile(); // 更新一个新的file
-		    // 	// };
-
-		    //     if (!!response && uploader.setting.dataType === 'json') {
-		    //     	response = $.parseJSON(response);
-		    //     };
-
-		    //     if (!response) {
-		    //       if (uploader.setting.error) {
-		    //         uploader.setting.error.call(uploader,uploader.input.val());
-		    //       }
-		    //     } else {
-		    //       if (uploader.setting.success) {
-		    //         uploader.setting.success.call(uploader,response);
-		    //       }
-		    //     };
-
-		    //     // 清除定时器
-		    //     if (uploader.timer) {
-		    //     	clearTimeout(uploader.timer);
-		    //     	uploader.timer = null;
-		    //     };
-		    // });
 
 		    return uploader;
 		},
@@ -223,7 +195,7 @@
 						typePass = type.match(typeReg),
 						filetypePass = filetype.match(filetypeReg),
 						sizePass = size > sizeNum;
-
+					
 					if (!typePass || !filetypePass) {
 						if ($.isFunction(uploader.setting.error)) {
 							uploader.setting.error.call(uploader,{'err':'文件类型不正确！','file':files[i]});
@@ -291,6 +263,25 @@
 			} else {
 				// 添加被提交的iframe
 				$('body').append(uploader.iframe);
+				// 绑定回调的事件
+				// window[uploader.id] = function (response) {
+				// 	if (!response) {
+			 //          if (uploader.setting.error) {
+			 //            uploader.setting.error.call(uploader,uploader.input.val());
+			 //          }
+			 //        } else {
+			 //          if (uploader.setting.success) {
+			 //            uploader.setting.success.call(uploader,response);
+			 //          }
+			 //        };
+
+			 //        // 清除定时器
+			 //        if (uploader.timer) {
+			 //        	clearTimeout(uploader.timer);
+			 //        	uploader.timer = null;
+			 //        };
+				// };
+
 				uploader.iframe.on('load',function (e) {
 			    	var res = uploader.iframe.contents().find('body').html();
 
@@ -302,11 +293,6 @@
 			        
 			        if (!!response && uploader.setting.dataType === 'json') {
 			        	response = $.parseJSON(response);
-			        	// try {
-			        	// 	response = $.parseJSON(response);
-			        	// } catch (e) {
-			        	// 	response = response;
-			        	// }
 			        };
 
 			        if (!response) {

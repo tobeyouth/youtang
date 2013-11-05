@@ -32,8 +32,6 @@
 		'close' : null, // 关闭之后的回调
 		'wrap' : null, // 外框
 		'content' : null, // 内容，也可以通过setContent来动态插入
-		// 'setWrap' : null, // 设置外框，如果不设置此方法的话，content是什么就会显示什么
-		// 'setContent' : null, // 动态插入内容的方法
 		'assemble' : null // 组装wrap和content
 	};
 
@@ -53,9 +51,6 @@
 
 	layer.prototype = {
 		'constructor' : layer,
-		// 'rendered' : false, // 是否已经被渲染
-		// 'dom' : null, // dom对象，带有外框
-		// 'content' : null, // 内容部分
 		// 根据setting渲染对象
 		'render' : function () {
 			var layer = this,

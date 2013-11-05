@@ -10,7 +10,7 @@
 	var tipsId = 0;
 
 	// tip模版
-	var wrapTpl = '<div class="Y_commenTips <%= tipClass %> <%= arrow %>" id="<%= id %>">' + 
+	var wrapTpl = '<div class="Y_commenTips <%= tipClass %> <%= arrow %>-tips" id="<%= id %>">' + 
 					'<div class="bd">'+
 					'</div>' + 
 					'<% if (pointer) { %>' + 
@@ -35,21 +35,19 @@
 			'height' : 'auto',
 			'position' : 'absolute'
 		},
-		'horizontal' : '0', // 水平偏移位置
-		'vertical' : '0', // 垂直偏移位置
-		'arrow' : 'bottom-tip',
+		'horizontal' : '0', // 水平偏移位置,正数为向上
+		'vertical' : '0', // 垂直偏移位置,正数为向左
+		'arrow' : 'bottom', // 箭头方向，分别是bottom,top,left,right四个值
 		'tipClass' : '',
 		'id' : '',
 		'open' : null,
-		'close' : null,
-		'tipsId' : tipsId
+		'close' : null
 	};
 	// 自动获取位置的tips方法
 	function Tips(setting) {
-		this.setting = $.extend({},defaultSetting,setting);
+		this.setting = $.extend(true,{},defaultSetting,setting,true);
 		var	wrapRender = template.compile(wrapTpl),
 			wrap = wrapRender(this.setting);
-
 		this.wrap = $(wrap);
 		this.init();
 	};
@@ -71,12 +69,27 @@
 		});
 		tip.open(function (layerDom) {
 			var layer = this,
-				fixedTop = top - layerDom.height() - 7 + vertical,
-				fixedLeft = left + trigger.width() / 2 - layerDom.width() / 2 + horizontal;
-			tip.setStyle({
-				'top' : fixedTop,
-				'left' : fixedLeft
-			});
+				fixedTop,fixedLeft,style;
+
+
+			// 更新四个方向
+			if (arrow === 'bottom') {
+				fixedTop = top - layerDom.outerHeight() - 7 - vertical;
+				fixedLeft = left + trigger.outerWidth() / 2 - layerDom.outerWidth() / 2 - horizontal;
+			} else if (arrow === 'top') {
+				fixedTop = top + trigger.outerHeight() + 7 - vertical;
+				fixedLeft = left + trigger.outerWidth() / 2 - layerDom.outerWidth() / 2 - horizontal;
+			} else if (arrow === 'left') {
+				fixedTop = top + trigger.outerHeight() / 2 - layerDom.outerHeight() / 2 - vertical;
+				fixedLeft = left + trigger.outerWidth() + 7 - horizontal;
+			} else if (arrow === 'right') {
+				fixedTop = top + trigger.outerHeight() / 2 - layerDom.outerHeight() / 2 - vertical;
+				fixedLeft = left - layerDom.outerWidth() - 7 - horizontal;
+			}
+				
+			style = $.extend({},tip.setting.style,{'left':fixedLeft,'top':fixedTop});
+			
+			tip.setStyle(style);
 		});
 		return tip;
 	};

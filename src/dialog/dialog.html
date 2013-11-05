@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>弹出层</title>
+
+	<script src="../../lib/jquery-1.9.1.js"></script>
+	<script src="../../plugin/template.min.js"></script>
+	<script src="layer.js"></script>
+	<script src="tips.js"></script>
+	<style>
+		.Y_commenTips {width: 200px;border:1px solid #333;height:20px;}
+	</style>
+</head>
+<body>
+	<div id="tip-trigger" style="width:100px;margin:100px auto;height:30px;line-height:30px;border:1px solid #333;text-align:center;">点我</div>
+	<script type="text/javascript">
+		$('#tip-trigger').click(function (argument) {
+			var tip = new Tips({
+				'trigger' : this,
+				'arrow' : 'right',
+				'content' : '测试',
+				'style' : {
+					'width' : '200px'
+				}
+			})
+		});
+	</script>
+</body>
+</html>

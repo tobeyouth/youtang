@@ -10,7 +10,7 @@
 	var tipsId = 0;
 
 	// tip模版
-	var wrapTpl = '<div class="Y_commenTips <%= tipClass %> <%= arrow %>-tips" id="<%= id %>">' + 
+	var wrapTpl = '<div class="Y_commenTips <%= tipClass %> <%= arrow %>-tip" id="<%= id %>">' + 
 					'<div class="bd">'+
 					'</div>' + 
 					'<% if (pointer) { %>' + 
@@ -26,13 +26,8 @@
 		'pointer' : true, // 是否显示箭头
 		'closeBtn' : true, // 是否显示关闭按钮
 		'content' : '', // 内容
+		'trigger' : '', // 触发元素
 		'style' : {
-			'left' : 'auto',
-			'right' : 'auto',
-			'top' : 'auto',
-			'bottom' : 'auto',
-			'width' : 'auto',
-			'height' : 'auto',
 			'position' : 'absolute'
 		},
 		'horizontal' : '0', // 水平偏移位置,正数为向上
@@ -91,6 +86,7 @@
 			
 			tip.setStyle(style);
 		});
+
 		return tip;
 	};
 	exports.Tips = Tips;

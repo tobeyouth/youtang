@@ -18,12 +18,6 @@
 		'hasMask' : true, // 是否调用遮罩
 		// 位置信息
 		'style' : {
-			'left' : 'auto',
-			'top' : 'auto',
-			'right' : 'auto',
-			'bottom' : 'auto',
-			'width' : 'auto',
-			'height' : 'auto',
 			'zIndex' : '1001'
 		},
 		// 各种回调和方法

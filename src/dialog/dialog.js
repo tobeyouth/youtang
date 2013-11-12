@@ -13,8 +13,8 @@
 						'<% if (hasTitle) { %>' + 
 							'<div class="hd"><%= title %></div>' + 
 						'<% } %>' + 
-						'<div class="bd">' + 
-							'<%= content %>' + 
+						'<div class="inner-content">' + 
+							// '<%== content %>' + 
 						'</div>' + 
 						'<% if (hasBtn) { %>' + 
 							'<div class="ft">' + 
@@ -74,7 +74,7 @@
 			var dialog = this;
 			// 拼装模版和内容
 			dialog.assemble(dialog.wrap,dialog.setting.content,function (wrap,content) {
-				wrap.find('.bd').append(content);
+				wrap.find('.inner-content').append(content);
 			});
 
 			dialog.setStyle(dialog.setting.style);
@@ -90,6 +90,10 @@
 				e.preventDefault();
 				dialog.cancel();
 			});
+			dialog.dom.delegate('.close-btn','click',function (e) {
+				e.preventDefault();
+				dialog.cancel();
+			})
 			return dialog;
 		},
 		'confirm' : function (callback) {

@@ -7,7 +7,7 @@
 
 'use strict';
 
-exports.description = 'Create gruntFile.js for youtang front-end developer!';
+exports.description = 'Create Gruntfile.js for youtang front-end developer!';
 
 exports.notes = ''
 
@@ -41,6 +41,7 @@ exports.template = function (grunt, init, done) {
 			init.prompt('keywords');
 			// 开发者信息
 			init.prompt('author_name'),
+			init.prompt('author_email')
 		],
 		// 初始化配置
 		function (error,props) {
@@ -56,6 +57,10 @@ exports.template = function (grunt, init, done) {
 			// 写入package.json
 			init.writePackageJSON('package.json', {
 				name: props.name || 'youtangUED',
+				author: {
+					'name' : props.author_name,
+					'email' : props.author_email
+				},
 				version: props.version || '0.0.1',
 				npm_test: 'grunt qunit',
 				node_version: '>= 0.8.0',
@@ -69,9 +74,25 @@ exports.template = function (grunt, init, done) {
 					'grunt-contrib-imagemin' : '~0.4.0',
 					'grunt-contrib-uglify': '~0.2.0',
 					'grunt-contrib-watch': '~0.4.0',
-					'grunt-contrib-clean': '~0.4.0'
+					'grunt-contrib-copy' : '~0.4.0',
+					'grunt-contrib-clean': '~0.4.0',
+					'grunt-contrib-compress' : '~0.5.2'
 				},
 			});
+
+			// 生成一份project.json
+			init.writePackageJSON('project.json' {
+				author: {
+					'name' : props.author_name,
+					'email' : props.author_email
+				},
+				name: props.name || 'youtangUED',
+				version: props.version || '0.0.1',
+				npm_test: 'grunt qunit',
+				node_version: '>= 0.8.0',
+				keywords : props.keywords.split(',')
+			});
+
 			done();
 		});
 };

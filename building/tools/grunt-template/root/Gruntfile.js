@@ -14,24 +14,25 @@ module.exports = function (grunt) {
 		// 每次发布都会更新version.json这个文件
 		'versions' : grunt.file.readJSON('{% version %}'),
 		// 注释
-		'banner' : 	'/*! <%= pkg.name %> - v<%= pkg.version %>' + 
-					'<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-					'<%= pkg.author || pkg.author.name  %>' + 
-					'*/',
+		'banner' : 	'/** <%= pkg.name %> - v<%= pkg.version %>\n' + 
+					' * <%= pkg.description %>\n' + 
+					' * <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+					' * <%= pkg.author || pkg.author.name  %>\n' + 
+					'**/',
 		// 声明task
 		'transport' : {
 			'options' : {
 				'alias' : {
 					'jquery': 'libs/jquery/1.5/jquery.js'
 				},
-				'idleading' : '<% pkg.name %>-<% pkg.version %>',
+				'idleading' : '<% pkg.name %>-v<% pkg.version %>',
 				'debug' : false
 			},
 			'src' : {
 				'files' : {
 					'cwd': '',
-					'src': ['channel/**/*.js','test/**/*.js','mod/**/*.js','util/**/*.js'],
-					'dest': './../.sea-debug/<%= pkg.name %>'
+					'src': ['**/*.js'],
+					'dest': './../.sea-debug/<%= pkg.name %>/'
 				}
 			}
 		},
@@ -49,44 +50,50 @@ module.exports = function (grunt) {
 			 }
 		},
 		'qunit' : {
-			'files': ['test/**/*.html']
+			'files': ['./../test/**/*.html']
 		},
 		'stylus' : {
 			'options' : {
+				'compress' : true,
 				'paths' : [], // 要进行import的文件的地址
 				'import' : [], // 默认制定的import项目
 				'embedding' : null, // 解析url地址
 			},
 			// 这里配置stylus要进行compile的路径
 			'files' : {
-				''
+				'./../<%= pkg.name %>/**/css/*.css' : './../<%= pkg.name %>/**/stylus/*.stylus'
 			}
 		},
 		'concat' : {
 			'options' : {
-				'separator': ';'
+				'separator': ';' // 在文件与文件之间添加的分隔符
 			},
 			'dist': {
 				// 请自行填入要合并的文件路径
-				'./../dist/<%= pkg.name %>/' : ['./../<%= pkg.name %>/']
+				'./../dist/<%= pkg.name %>/*/**/*.js' : ['./../<%= pkg.name %>/*/**/*.js']
 			}
 		},
 		// 混淆js文件
 		'uglify' : {
 			'options': {
 				// 此处定义的banner注释将插入到输出文件的顶部
-				'banner': '/*! <%= pkg.name %>    <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+				'banner': '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
 			},
 			'dist': {
 				'files': {
 					// 这里压缩contact中合并的文件
-			    	'dist/<%= pkg.name %>.js': ['<%= concat.dist.dest %>']
+			    	'./../dist/<%= pkg.name %>/**/*.js': ['<%= concat.dist.dest %>']
 				}
 			}
 		},
 		// 压缩文件
 		'compress' : {
-
+			'options' : {
+				'mode' : 'gzip'
+			},
+			'expend' : true,
+			'src' : ['**/*'],
+			'dest' : './../dist/<%= pkg.name %>/**/*'
 		},
 		'watch' : {
 			'files': ['<%= jshint.files %>'],
@@ -117,9 +124,9 @@ module.exports = function (grunt) {
 	// 仅仅是watch
 	var watchTask = ['watch'];
 	// 构建项目
-	var buildTask = ['transport','jshint','stylus','concat','copy'];
+	var buildTask = ['transport','jshint','stylus','concat'];
 	// 发布项目
-	var deployTask = [];
+	var deployTask = ['qunit','copy','clean'];
 
 	// 定义执行task
 	grunt.registerTask('default', defaultTask);

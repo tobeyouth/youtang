@@ -38,7 +38,7 @@ exports.template = function (grunt, init, done) {
 			init.prompt('version','0.0.1'),
 			init.prompt('licenses', 'MIT'),
 			// 关键词
-			init.prompt('keywords');
+			init.prompt('keywords'),
 			// 开发者信息
 			init.prompt('author_name'),
 			init.prompt('author_email')
@@ -46,7 +46,7 @@ exports.template = function (grunt, init, done) {
 		// 初始化配置
 		function (error,props) {
 			// 生成Gruntfile.js
-			props.projectjson = props.name + '-project.json';
+			props.packagejson = props.name + '-project.json';
 
 			// 根据root中的Gruntfile.js模板生成项目的Gruntfilejs
 			var files = init.filesToCopy(props);
@@ -81,7 +81,7 @@ exports.template = function (grunt, init, done) {
 			});
 
 			// 生成一份project.json
-			init.writePackageJSON('project.json' {
+			init.writePackageJSON('project.json',{
 				author: {
 					'name' : props.author_name,
 					'email' : props.author_email

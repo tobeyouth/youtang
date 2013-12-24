@@ -10,9 +10,9 @@
 module.exports = function (grunt) {
 	grunt.initConfig({
 		// 每个项目有单独的project.json，用户定义项目的信息
-		'pkg' : grunt.file.readJSON('{% project %}'),
+		'pkg' : grunt.file.readJSON('package.json'),
 		// 每次发布都会更新version.json这个文件
-		'versions' : grunt.file.readJSON('{% version %}'),
+		'version' : pkg.version,
 		// 注释
 		'banner' : 	'/** <%= pkg.name %> - v<%= pkg.version %>\n' + 
 					' * <%= pkg.description %>\n' + 

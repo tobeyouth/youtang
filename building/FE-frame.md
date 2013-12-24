@@ -68,6 +68,12 @@
 	
 	ps：以上三个文件夹只是针对不同开发阶段，里面的文件配置都是一样的。原则上，开发者只需要关注dev文件夹即可，提交到test和debug都是通过grunt自动部署过去的。
 
+##待完成列表
+
+1. 在build时做一个可以选择的自增插件，更新pkg中的version。
+2. deploy发布插件
+3. 测试gruntfile的实用性
+4. 安装引导文档(安装grunt-init -> clone youtang-template -> 使用)
 
 
 
